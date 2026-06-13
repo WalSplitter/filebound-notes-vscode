@@ -2,14 +2,14 @@
   "name": "filebound-notes",
   "displayName": "Filebound Notes",
   "description": "Per-file notes in a VS Code sidebar panel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "mgrosshauser",
   "publisher": "mgrosshauser",
   "icon": "media/logo.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mgrosshauser/filebound-notes-vscode"
+    "url": "https://github.com/WalSplitter/filebound-notes-vscode"
   },
   "engines": {
     "vscode": "^1.74.0",

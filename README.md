@@ -105,6 +105,6 @@ When a file is renamed, moved, or deleted via the Explorer, its note is updated 
 
 <div align="center">
 
-MIT License · [GitHub](https://github.com/mgrosshauser/filebound-notes-vscode)
+MIT License · [GitHub](https://github.com/WalSplitter/filebound-notes-vscode)
 
 </div>
