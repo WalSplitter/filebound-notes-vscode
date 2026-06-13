@@ -17,21 +17,20 @@
   "main": "./out/extension.js",
   "activationEvents": [],
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "filebound-notes",
-          "title": "File Notes",
-          "icon": "media/icon.svg"
-        }
-      ]
-    },
+    "commands": [
+      {
+        "command": "filebound-notes.clearAll",
+        "title": "File Notes: Clear All Notes",
+        "category": "File Notes"
+      }
+    ],
     "views": {
-      "filebound-notes": [
+      "explorer": [
         {
           "type": "webview",
           "id": "filebound-notes.notesView",
-          "name": "File Notes"
+          "name": "File Notes",
+          "visibility": "visible"
         }
       ]
     }
