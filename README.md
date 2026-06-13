@@ -1,87 +1,101 @@
-# filebound-notes
+<div align="center">
 
-A VS Code extension that attaches notes to individual files. Notes live in the Explorer sidebar and auto-save as you type.
+<img src="media/logo.png" width="96" height="96" />
+
+# File Notes
+
+**Attach persistent notes to any file — right inside the VS Code Explorer.**
+
+[![Version](https://img.shields.io/visual-studio-marketplace/v/mgrosshauser.filebound-notes?style=flat-square&color=0078d4)](https://marketplace.visualstudio.com/items?itemName=mgrosshauser.filebound-notes)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/mgrosshauser.filebound-notes?style=flat-square&color=0078d4)](https://marketplace.visualstudio.com/items?itemName=mgrosshauser.filebound-notes)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+
+</div>
+
+![File Notes — Explorer, editor, and notes panel](media/notes-panel-overview.png)
+
+---
+
+## What it does
+
+File Notes lets you attach a persistent note to any file in your workspace. Switch files — the note switches with you. No separate tabs, no extra windows. Everything stays inside the Explorer sidebar where you already work.
+
+---
 
 ## Features
 
-- **File Notes panel** in the Explorer sidebar (auto-expanded, below Timeline)
-- Note content switches automatically when the active editor changes
-- Each file gets its own independent note
-- **View mode** — renders the note with clickable line references; click anywhere to edit
-- **Edit mode** — plain textarea; switches back to view mode on blur
-- Auto-saves 500 ms after you stop typing — no save button needed
-- Brief "Saved" indicator after each auto-save
+### 🔗 Line references
 
-### Line references
-
-Write `@L42` or `@L42-55` anywhere in a note to reference a code location. In view mode the reference appears as a styled badge — clicking it jumps to that line in the editor.
+Write `@L42` or `@L13-18` anywhere in a note to pin it to a specific line or range. In view mode the reference renders as a clickable badge — click to jump directly to that line.
 
 **Three ways to insert a reference:**
 
 | Method | How |
 |---|---|
-| Type `@` in the note | IntelliSense dropdown appears with all symbols from the current file (functions, classes, variables…). Filter by typing, navigate with ↑↓, confirm with Enter or Tab. |
-| Link button (⛓) in the panel header | Inserts `@L{n}` at the cursor position based on the active editor's cursor / selection. |
-| Right-click in the editor | **File Notes: Insert Line Reference to File Notes** — works with selections too (`@L42-55`). |
+| Type `@` in the note | IntelliSense dropdown lists all symbols in the current file. Filter by name, navigate with ↑↓, confirm with Enter or Tab. |
+| ⛓ button in the panel header | Inserts `@L{n}` based on the active editor cursor or selection. |
+| Right-click in the editor | **File Notes: Insert Line Reference** — works with multi-line selections too. |
 
-### File-tree decorations
+### ✎ File-tree badges
 
-Files that have a note show a `✎` badge in the Explorer file tree. The badge color adapts to the active theme and disappears automatically when the note is cleared.
+Files with notes show a `✎` badge in the Explorer tree — no need to open a file to know it has annotations.
 
-### Gutter indicators
+![✎ badge on annotated files in the Explorer tree](media/explorer-badge.png)
 
-Lines referenced by `@L42` or `@L42-55` in a note get a subtle left-border highlight and an overview-ruler mark in the active editor — so referenced code is visible at a glance without opening the notes panel.
+### 📌 Gutter indicators
+
+Every line referenced in a note gets a colored left-border highlight and an overview-ruler mark — referenced code stays visible at a glance without opening the notes panel.
+
+![Gutter indicators on lines referenced in a note](media/gutter-indicators.png)
+
+### 🔍 Notes search
+
+`File Notes: Search Notes` opens a Quick Pick across all notes in the workspace. Filter by filename or note content and jump straight to the file.
+
+### ⚡ Auto-save
+
+Notes save automatically 500 ms after you stop typing. No save button, no lost work.
+
+---
+
+## Usage
+
+1. Open any file in the editor.
+2. The **FILE NOTES** panel appears at the bottom of the Explorer sidebar.
+3. Click to edit — write your note, use `@L42` to reference lines.
+4. Click elsewhere to switch to view mode with rendered badges.
 
 ### Panel header buttons
 
 | Button | Action |
 |---|---|
-| ⛓ | Insert line reference at cursor |
-| 📁 | Reveal the notes storage file in the OS file explorer |
+| ⛓ | Insert line reference at cursor position |
+| 📁 | Open the notes storage file in the OS file explorer |
 | 🗑 | Clear the note for the current file |
 
-### Commands (Command Palette)
+### Commands
 
-- `File Notes: Search Notes` — opens a Quick Pick with all saved notes; type to filter by filename or note content, press Enter to jump to that file
-- `File Notes: Clear All Notes` — deletes all notes after confirmation
+Open the Command Palette (`Ctrl+Shift+P`) and search for:
 
-## Setup
+- **File Notes: Search Notes** — full-text search across all notes
+- **File Notes: Clear All Notes** — delete all notes after confirmation
 
-```bash
-npm install
+---
+
+## Installation
+
+Search for **File Notes** in the VS Code Extensions view (`Ctrl+Shift+X`), or install with one command:
+
+```
+ext install mgrosshauser.filebound-notes
 ```
 
-## Build
-
-```bash
-npm run compile      # one-shot build → out/
-npm run watch        # rebuild on change (recommended during development)
-```
-
-## Run & Debug
-
-Press **F5** to launch the Extension Development Host. The **FILE NOTES** section appears in the Explorer sidebar.
-
-For fast iteration: run `npm run watch` in a terminal first, then F5. Reload the host with **Ctrl+R** after each recompile.
-
-## Package
-
-```bash
-npx vsce package
-```
-
-Produces a `.vsix` installable via **Extensions: Install from VSIX…**
+---
 
 ## Storage
 
-Notes are stored in VS Code's own workspace storage — outside the repository, never committed to git, but persisted across sessions and specific to each workspace.
+Notes are stored in VS Code's own workspace storage — **outside your repository, never committed to git**, but persisted across sessions and unique to each workspace.
 
-Storage path (Windows example):
-```
-%APPDATA%\Code\User\workspaceStorage\<hash>\mgrosshauser.filebound-notes\file-notes.json
-```
-
-Format — flat JSON keyed by workspace-relative file path:
 ```json
 {
   "src/index.ts": "Entry point. @L5-12 registers all commands.",
@@ -89,8 +103,12 @@ Format — flat JSON keyed by workspace-relative file path:
 }
 ```
 
-Empty notes are removed from the map automatically. When the last note is deleted the storage file is removed entirely.
+When a file is renamed, moved, or deleted via the Explorer, its note is updated or removed automatically.
 
-### File rename & delete
+---
 
-When a file is renamed, moved, or deleted via VS Code's Explorer, the corresponding note is updated or removed automatically.
+<div align="center">
+
+MIT License · [GitHub](https://github.com/mgrosshauser/filebound-notes-vscode)
+
+</div>

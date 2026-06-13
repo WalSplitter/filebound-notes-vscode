@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+
+  <!-- Background: dark blue rounded square -->
+  <rect width="128" height="128" rx="22" fill="#162032"/>
+
+  <!-- Page shadow -->
+  <path d="M32 24 L78 24 L98 44 L98 112 L32 112 Z" fill="#000000" opacity="0.25" transform="translate(2,3)"/>
+
+  <!-- Main document page -->
+  <path d="M30 22 L76 22 L96 42 L96 110 L30 110 Z" fill="#e8f0fb"/>
+
+  <!-- Corner fold -->
+  <path d="M76 22 L96 42 L76 42 Z" fill="#b0c4de"/>
+  <line x1="76" y1="22" x2="96" y2="42" stroke="#c8d8ec" stroke-width="0.5"/>
+
+  <!-- Regular code lines (gray) -->
+  <rect x="42" y="50" width="42" height="5" rx="2.5" fill="#8facc8" opacity="0.75"/>
+  <rect x="42" y="61" width="42" height="5" rx="2.5" fill="#8facc8" opacity="0.75"/>
+  <rect x="42" y="72" width="28" height="5" rx="2.5" fill="#8facc8" opacity="0.75"/>
+
+  <!-- Blue gutter indicator bar (left edge of page — referenced lines) -->
+  <rect x="30" y="82" width="8" height="29" fill="#4a90e2"/>
+
+  <!-- Annotated / noted lines (amber) -->
+  <rect x="42" y="84" width="42" height="5" rx="2.5" fill="#f5a623"/>
+  <rect x="42" y="95" width="30" height="5" rx="2.5" fill="#f5a623" opacity="0.7"/>
+
+  <!-- Small round badge: amber circle with a pen stroke (top-right) -->
+  <circle cx="91" cy="34" r="18" fill="#f5a623"/>
+  <circle cx="91" cy="34" r="18" fill="#162032" opacity="0.08"/>
+  <!-- Pen: diagonal line body + tip -->
+  <line x1="85" y1="40" x2="97" y2="28" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="97" y1="28" x2="100" y2="25" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="83" y1="42" x2="86" y2="39" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <line x1="83" y1="44" x2="87" y2="44" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="83" y1="44" x2="83" y2="40" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+
+</svg>

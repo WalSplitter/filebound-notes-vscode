@@ -4,3 +4,6 @@ out/
 *.tsbuildinfo
 .vscode-test/
 .eslintcache
+
+# graphify — generated outputs, rebuilt on demand
+graphify-out/

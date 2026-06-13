@@ -832,6 +832,7 @@ export class NotesViewProvider implements vscode.WebviewViewProvider, vscode.Dis
     }
 
     function triggerAc(query) {
+      if (/^[Ll]\d/.test(query)) { hideAc(); return; }
       if (allSymbols.length === 0) {
         vscode.postMessage({ type: 'getSymbols' });
         return;
