@@ -1,18 +1,19 @@
-import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import globals from 'globals';
+// @ts-check
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const tsParser = require('@typescript-eslint/parser');
 
-export default tseslint.config(
+/** @type {import('eslint').Linter.Config[]} */
+module.exports = [
   {
     files: ['src/**/*.ts'],
     languageOptions: {
-      globals: { ...globals.node },
+      parser: tsParser,
     },
-  },
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
     rules: {
+      ...tsPlugin.configs.recommended.rules,
       'prefer-const': 'error',
       'no-var': 'error',
       '@typescript-eslint/no-unused-vars': [
@@ -22,6 +23,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ['**/node_modules/**', 'out/**'],
-  }
-);
+    ignores: ['node_modules/**', 'out/**'],
+  },
+];
