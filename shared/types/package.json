@@ -1,0 +1,25 @@
+{
+  "name": "@base-template/shared-types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types and interfaces",
+  "type": "module",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist .turbo",
+    "lint": "echo \"no lint needed\"",
+    "test:coverage": "echo \"no tests\""
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
