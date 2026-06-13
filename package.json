@@ -6,14 +6,23 @@
   "license": "MIT",
   "author": "mgrosshauser",
   "publisher": "mgrosshauser",
+  "icon": "media/logo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/mgrosshauser/filebound-notes-vscode"
   },
   "engines": {
-    "vscode": "^1.74.0"
+    "vscode": "^1.74.0",
+    "node": ">=18.0.0"
   },
   "categories": ["Other"],
+  "keywords": [
+    "notes",
+    "annotations",
+    "file notes",
+    "sidebar",
+    "productivity"
+  ],
   "main": "./out/extension.js",
   "activationEvents": [],
   "contributes": {
@@ -59,13 +68,16 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "@vscode/vsce": "^3.0.0",
     "eslint": "^9.0.0",
     "typescript": "^5.0.0"
   }

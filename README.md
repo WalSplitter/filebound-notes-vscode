@@ -4,10 +4,6 @@
 
 # File Notes
 
-**Attach persistent notes to any file — right inside the VS Code Explorer.**
-
-[![Version](https://img.shields.io/visual-studio-marketplace/v/mgrosshauser.filebound-notes?style=flat-square&color=0078d4)](https://marketplace.visualstudio.com/items?itemName=mgrosshauser.filebound-notes)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/mgrosshauser.filebound-notes?style=flat-square&color=0078d4)](https://marketplace.visualstudio.com/items?itemName=mgrosshauser.filebound-notes)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 </div>
