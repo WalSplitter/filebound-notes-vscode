@@ -20,10 +20,24 @@
     "commands": [
       {
         "command": "filebound-notes.clearAll",
-        "title": "File Notes: Clear All Notes",
+        "title": "Clear All Notes",
+        "category": "File Notes"
+      },
+      {
+        "command": "filebound-notes.insertRefFromEditor",
+        "title": "Insert Line Reference to File Notes",
         "category": "File Notes"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "filebound-notes.insertRefFromEditor",
+          "group": "filebound-notes@1",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
     "views": {
       "explorer": [
         {

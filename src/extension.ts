@@ -7,7 +7,13 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(NotesViewProvider.viewType, provider),
 
-    vscode.commands.registerCommand('filebound-notes.clearAll', () => provider.clearAllNotes()),
+    vscode.commands.registerCommand('filebound-notes.clearAll', () =>
+      provider.clearAllNotes()
+    ),
+
+    vscode.commands.registerCommand('filebound-notes.insertRefFromEditor', () =>
+      provider.insertRefFromEditor()
+    ),
 
     vscode.workspace.onDidRenameFiles(async (e) => {
       await provider.handleRenameFiles(e.files);
