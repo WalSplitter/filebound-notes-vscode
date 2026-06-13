@@ -2,7 +2,7 @@
 
 <img src="media/logo.png" width="96" height="96" />
 
-# File Notes
+# Filebound Notes
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 

@@ -1,6 +1,6 @@
 {
   "name": "filebound-notes",
-  "displayName": "File Notes",
+  "displayName": "Filebound Notes",
   "description": "Per-file notes in a VS Code sidebar panel",
   "version": "0.0.1",
   "license": "MIT",
