@@ -27,6 +27,11 @@
         "command": "filebound-notes.insertRefFromEditor",
         "title": "Insert Line Reference to File Notes",
         "category": "File Notes"
+      },
+      {
+        "command": "filebound-notes.searchNotes",
+        "title": "Search Notes",
+        "category": "File Notes"
       }
     ],
     "menus": {

@@ -24,6 +24,14 @@ Write `@L42` or `@L42-55` anywhere in a note to reference a code location. In vi
 | Link button (⛓) in the panel header | Inserts `@L{n}` at the cursor position based on the active editor's cursor / selection. |
 | Right-click in the editor | **File Notes: Insert Line Reference to File Notes** — works with selections too (`@L42-55`). |
 
+### File-tree decorations
+
+Files that have a note show a `✎` badge in the Explorer file tree. The badge color adapts to the active theme and disappears automatically when the note is cleared.
+
+### Gutter indicators
+
+Lines referenced by `@L42` or `@L42-55` in a note get a subtle left-border highlight and an overview-ruler mark in the active editor — so referenced code is visible at a glance without opening the notes panel.
+
 ### Panel header buttons
 
 | Button | Action |
@@ -34,6 +42,7 @@ Write `@L42` or `@L42-55` anywhere in a note to reference a code location. In vi
 
 ### Commands (Command Palette)
 
+- `File Notes: Search Notes` — opens a Quick Pick with all saved notes; type to filter by filename or note content, press Enter to jump to that file
 - `File Notes: Clear All Notes` — deletes all notes after confirmation
 
 ## Setup

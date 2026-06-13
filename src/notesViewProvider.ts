@@ -42,17 +42,36 @@ function flattenSymbols(
   }
 }
 
-export class NotesViewProvider implements vscode.WebviewViewProvider {
+export class NotesViewProvider implements vscode.WebviewViewProvider, vscode.Disposable {
   public static readonly viewType = 'filebound-notes.notesView';
 
   private _view?: vscode.WebviewView;
   private _currentRelPath: string | null = null;
   private _currentFileUri: vscode.Uri | undefined;
+  private readonly _lineRefDecoration: vscode.TextEditorDecorationType;
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
-    private readonly _storageUri: vscode.Uri | undefined
-  ) {}
+    private readonly _storageUri: vscode.Uri | undefined,
+    private readonly _onNotesChanged?: (notes: NotesMap) => void
+  ) {
+    this._lineRefDecoration = vscode.window.createTextEditorDecorationType({
+      overviewRulerColor: new vscode.ThemeColor('editorInfo.foreground'),
+      overviewRulerLane: vscode.OverviewRulerLane.Right,
+      isWholeLine: true,
+      dark: { borderColor: '#4FC1FF50', borderStyle: 'solid', borderWidth: '0 0 0 3px' },
+      light: { borderColor: '#0066CC40', borderStyle: 'solid', borderWidth: '0 0 0 3px' },
+    });
+  }
+
+  public dispose(): void {
+    this._lineRefDecoration.dispose();
+  }
+
+  public async initialize(): Promise<void> {
+    const notes = await this._loadNotes();
+    this._onNotesChanged?.(notes);
+  }
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
@@ -282,12 +301,14 @@ export class NotesViewProvider implements vscode.WebviewViewProvider {
       } catch {
         // file didn't exist
       }
+      this._onNotesChanged?.(notes);
       return;
     }
     await vscode.workspace.fs.writeFile(
       uri,
       Buffer.from(JSON.stringify(notes, null, 2), 'utf8')
     );
+    this._onNotesChanged?.(notes);
   }
 
   private async _persistNote(relPath: string, content: string): Promise<void> {
@@ -298,6 +319,9 @@ export class NotesViewProvider implements vscode.WebviewViewProvider {
       notes[relPath] = content;
     }
     await this._writeNotes(notes);
+    if (relPath === this._currentRelPath) {
+      this._applyGutterDecorations(content);
+    }
   }
 
   private async _sendCurrentNote(): Promise<void> {
@@ -330,6 +354,78 @@ export class NotesViewProvider implements vscode.WebviewViewProvider {
     const filename = path.basename(fileUri.fsPath);
 
     this._view.webview.postMessage({ type: 'load', file: filename, relPath, content });
+    this._applyGutterDecorations(content);
+  }
+
+  public async searchNotes(): Promise<void> {
+    const notes = await this._loadNotes();
+    const entries = Object.entries(notes);
+
+    if (entries.length === 0) {
+      vscode.window.showInformationMessage('File Notes: no notes saved yet.');
+      return;
+    }
+
+    interface NoteItem extends vscode.QuickPickItem {
+      relPath: string;
+    }
+
+    const items: NoteItem[] = entries.map(([relPath, content]) => ({
+      label: `$(file) ${path.basename(relPath)}`,
+      description: relPath,
+      detail: content.slice(0, 120).replace(/\n/g, ' ↵ '),
+      relPath,
+    }));
+
+    const picked = await vscode.window.showQuickPick(items, {
+      placeHolder: 'Search file notes…',
+      matchOnDescription: true,
+      matchOnDetail: true,
+    });
+
+    if (!picked) return;
+
+    const fileUri = await this._uriForRelPath(picked.relPath);
+    if (fileUri) {
+      await vscode.window.showTextDocument(fileUri);
+    } else {
+      vscode.window.showWarningMessage(`File not found: ${picked.relPath}`);
+    }
+  }
+
+  private async _uriForRelPath(relPath: string): Promise<vscode.Uri | undefined> {
+    for (const folder of vscode.workspace.workspaceFolders ?? []) {
+      const uri = vscode.Uri.joinPath(folder.uri, relPath);
+      try {
+        await vscode.workspace.fs.stat(uri);
+        return uri;
+      } catch {
+        // try next folder
+      }
+    }
+    return undefined;
+  }
+
+  private _applyGutterDecorations(noteContent: string): void {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor || !this._currentFileUri) return;
+    if (editor.document.uri.fsPath !== this._currentFileUri.fsPath) return;
+
+    const ranges: vscode.Range[] = [];
+    const regex = /@L(\d+)(?:-(\d+))?/g;
+    let m: RegExpExecArray | null;
+    while ((m = regex.exec(noteContent)) !== null) {
+      const startLine = Math.max(0, parseInt(m[1], 10) - 1);
+      const endLine = m[2] ? Math.max(0, parseInt(m[2], 10) - 1) : startLine;
+      const docEnd = editor.document.lineCount - 1;
+      if (startLine > docEnd) continue;
+      ranges.push(new vscode.Range(
+        Math.min(startLine, docEnd), 0,
+        Math.min(endLine, docEnd), 0
+      ));
+    }
+
+    editor.setDecorations(this._lineRefDecoration, ranges);
   }
 
   private _getHtmlForWebview(): string {
