@@ -2,7 +2,7 @@
   "name": "filebound-notes",
   "displayName": "Filebound Notes",
   "description": "Per-file notes in a VS Code sidebar panel",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "mgrosshauser",
   "publisher": "mgrosshauser",
