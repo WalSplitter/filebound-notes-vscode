@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    npm install -g @vscode/vsce
+    npm install
+  displayName: 'Install dependencies'
+
+- script: |
+    npm run compile
+  displayName: 'Build extension'
+
+- task: AzureCLI@2
+  displayName: 'Publish using managed identity'
+  inputs:
+    azureSubscription: vscode-marketplace-connection
+    scriptType: pscore
+    scriptLocation: inlineScript
+    inlineScript: |
+      vsce publish --azure-credential
